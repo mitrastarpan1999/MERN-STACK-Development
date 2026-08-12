@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <h2>Student CRUD App</h2>
+
+<form id="studentForm" onsubmit="return subData(event)">
+
+    <input
+        type="text"
+        id="name"
+        placeholder="Enter Name"
+        required
+    >
+
+    <input
+        type="number"
+        id="age"
+        placeholder="Enter Age"
+        required
+    >
+
+    <input
+        type="text"
+        id="course"
+        placeholder="Enter Course"
+        required
+    >
+
+    <button type="submit" id="btnChange">
+        Save
+    </button>
+
+</form>
+
+
+<br>
+
+<table border="1" cellpadding="10">
+
+<thead>
+
+<tr id="values">
+
+<th>ID</th>
+<th>Name</th>
+<th>Age</th>
+<th>Course</th>
+<th colspan="2">Action</th>
+
+</tr>
+
+</thead>
+
+<tbody id="studentList">
+<!-- <td></td>
+<td></td>
+<td></td>
+<td></td> -->
+<!-- <td><button>Edit</button></td>
+<td><button>Delete</button></td> -->
+</tbody>
+
+</table>
+
+    <h1></h1>
+<script src="./script.js"></script>
+</body>
+</html>
