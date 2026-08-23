@@ -1,0 +1,97 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+.container {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 0 15px;
+    width: 100%;
+}
+
+section img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+img {
+    max-width: 100%;
+}
+
+h1{
+    text-align: center;
+    margin-bottom: 10px;
+}
+.card {
+
+    /* height: 200px;
+    width: 300px; */
+    border: 2px solid red;
+    margin: 20px;
+    background-color: rgb(208, 255, 0);
+
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.card img {
+    height: 70px;
+    width: 70px;
+    object-fit: cover;
+
+}
+
+#cardContainer {
+    display: flex;
+    flex-wrap: wrap;
+    border: 2px solid blue;
+    justify-content: flex-start;
+    gap: 40px;
+
+}
+
+.formclass{
+    display: flex;
+    justify-content: center;
+    border: 2px solid red;
+    padding: 20px;
+}
+
+
+#formstyle{
+    font-size: large;
+}
+
+#formstyle input {
+    margin: 6px 0;
+    padding: 6px;
+    font-size: 16px;
+}
+#formstyle label {
+    display: inline-block;
+    width: 130px;
+}
+
+button {
+    padding: 6px 12px;
+    font-size: 15px;
+    cursor: pointer;
+    
+}
+
+#btnChange {
+    display: block;
+    margin: 10px auto;
+}
+
+#validation h3{
+    text-align: center;
+}
+
+label {
+    margin: 5px;
+}

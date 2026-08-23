@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Card Application</h1>
+        <div class="formclass">
+            <form onsubmit="cardRender(event)" id="formstyle">
+            <label for="name">Name:</label>
+            <input type="text" id="name" placeholder="Enter your name"><br>
+
+            <label for="email">Email Address:</label>
+            <input type="email" id="email" placeholder="Enter your email"><br>
+
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" placeholder="Enter your phone number"><br>
+
+            <label for="image">Image URL:</label>
+            <input type="url" id="image" placeholder="Paste image URL"><br>
+
+            <label for="course">Course:</label>
+            <input type="text" id="course" placeholder="Enter your course"><br>
+
+            
+            <button type="submit" id="btnChange">Create Card</button>
+        </form>
+        </div>
+        
+        <div id="validation">
+
+        </div>
+        <div id="cardContainer" style="margin-top: 25px;">
+            <!-- JavaScript will create cards here -->
+        </div>
+        
+
+
+    </div>
+
+
+    <script src="./script.js"></script>
+</body>
+
+</html>
