@@ -21,9 +21,9 @@ function cardRender(event) {
   const image = document.getElementById("image").value;
   const course = document.getElementById("course").value;
 
-  if(!name|| !email || !phone || !image|| !course) {
-    document.getElementById("validation").innerHTML = 
-    `<h3>Fields cannpt be empty.</h3>`
+  if (!name || !email || !phone || !image || !course) {
+    document.getElementById("validation").innerHTML =
+      `<h3>Fields cannpt be empty.</h3>`
     return
   }
 
@@ -92,8 +92,11 @@ function renderDisplay() {
 
 function deletebtn(key) {
   const data = JSON.parse(localStorage.getItem(1)) || [];
-  data.splice(key, 1);
-  localStorage.setItem(1, JSON.stringify(data));
+  if (confirm("Are you sure?")) {
+    data.splice(key, 1);
+    localStorage.setItem(1, JSON.stringify(data));
+  }
+
 
   renderDisplay();
 }
