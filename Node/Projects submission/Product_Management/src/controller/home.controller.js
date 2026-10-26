@@ -1,290 +1,86 @@
-<!doctype html>
-<html lang="en">
+const product = require("../models/product.model");
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>
-        <%= title %>
-    </title>
+class homeController {
+  async home(req, res) {
+    const search = req.query.search;
+    const colors = req.query.colors;
+    const sizes = req.query.sizes;
+    const brand = req.query.brand;
+    const category = req.query.category;
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet" href="/style.css">
-</head>
+    console.log(colors);
+    console.log(req.query.sort);
+    console.log(category);
 
-<body>
-    <h1 style="text-align: center;">Product Management application</h1>
-    <!-- Previous markup -->
-    <div class="container">
-        <div class="navBar">
-            <nav class="navbar navbar-expand-lg bg-body-tertiary">
-                <div class="container">
-                    <a class="navbar-brand" href="/">Products</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item">
-                                <a style="margin: 10px;" class="nav-link active" aria-current="page" href="/">Home</a>
-                            </li>
-                            <li class="nav-item" style="margin: 10px;">
-                                <a href="/recyclebin"><button type="button" class="btn btn-warning">Recycle
-                                        bin</button></a>
-                            </li>
-                            <li style="margin: 10px;"><a href="/create"><button type="button"
-                                        class="btn btn-primary">Create
-                                        product</button></a>
-                            </li>
+    const query = { isDeleted: false };
+    const sort = {};
+    if (search) {
+      query.name = {
+        $regex: search,
+        $options: "i",
+      };
+    }
 
-                        </ul>
-                        <form class="d-flex" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
-                                name="search" />
-                            <button class="btn btn-outline-success" type="submit">Search</button>
-                        </form>
-                    </div>
-                </div>
-            </nav>
-        </div>
-    </div>
+    if (req.query.sort === "price_asc") {
+      sort.price = 1;
+    } else if (req.query.sort === "price_desc") {
+      sort.price = -1;
+    } else if (req.query.sort === "newest") {
+      sort.createdAt = -1;
+    } else if (req.query.sort === "oldest") {
+      sort.createdAt = 1;
+    } else if (req.query.sort === "name_asc") {
+      sort.name = 1;
+    } else if (req.query.sort === "name_desc") {
+      sort.name = -1;
+    }
 
-    <div class="container">
-        <div class="main-body">
-            <div class="row">
-                <div class="col col-lg-2">
+    const selectedColors = []
+      .concat(colors || [])
+      .map((color) => color.trim().toUpperCase());
 
-                    <div class="filter-section">
-                        <form action="/" method="get">
-                            <div class="card border-0 bg-light shadow-sm" style="max-width: 320px;">
-                                <div class="card-body p-4 text-start">
+    if (selectedColors.length > 0) {
+      query.colors = {
+        $in: selectedColors,
+      };
+    }
 
-                                    <!-- Title -->
-                                    <h4 class="fw-bold mb-3 text-dark">Product Filter</h4>
-                                    <div class="mb-3">
-                                        <label for="sort" class="form-label">Sort by</label>
+    const selectedSizes = [].concat(sizes || []);
 
-                                        <select class="form-select" id="sort" name="sort">
-                                            <option value="">Default</option>
-                                            <option value="price_asc">Price: Low to High</option>
-                                            <option value="price_desc">Price: High to Low</option>
-                                            <option value="newest">Newest</option>
-                                            <option value="oldest">Oldest</option>
-                                            <option value="name_asc">Name A-Z</option>
-                                            <option value="name_desc">Name Z-A</option>
-                                        </select>
-                                    </div>
-                                    <div class="mb-4">
-                                        <label for="category" class="form-label">Category</label>
-                                        <select class="form-select" id="category" name="category">
-                                            <option value="">Default</option>
-                                            <option value="Men">Men</option>
-                                            <option value="Women">Women</option>
-                                        </select>
-                                    </div>
-                                    <!-- Size Section -->
-                                    <div class="mb-4">
-                                        <h5 class="fw-bold fs-6 mb-2">Size</h5>
-                                        <hr class="text-muted opacity-25 mt-0 mb-3">
+    if (selectedSizes.length > 0) {
+      query.sizes = {
+        $in: selectedSizes,
+      };
+    }
 
-                                        <div class="form-check mb-2">
-                                            <input class="form-check-input" type="checkbox" id="sizeS" name="sizes"
-                                                value="S">
-                                            <label class="form-check-label text-secondary ps-1" for="sizeS">S</label>
-                                        </div>
-                                        <div class="form-check mb-2">
-                                            <input class="form-check-input" type="checkbox" id="sizeM" name="sizes"
-                                                value="M">
-                                            <label class="form-check-label text-secondary ps-1" for="sizeM">M</label>
-                                        </div>
-                                        <div class="form-check mb-2">
-                                            <input class="form-check-input" type="checkbox" id="sizeL" name="sizes"
-                                                value="L">
-                                            <label class="form-check-label text-secondary ps-1" for="sizeL">L</label>
-                                        </div>
-                                        <div class="form-check mb-3">
-                                            <input class="form-check-input" type="checkbox" id="sizeXL" name="sizes"
-                                                value="XL">
-                                            <label class="form-check-label text-secondary ps-1" for="sizeXL">XL</label>
-                                        </div>
-                                    </div>
+    const selectedBrand = [].concat(brand || []);
 
-                                    <!-- Color Section -->
-                                    <div class="mb-4">
-                                        <h5 class="fw-bold fs-6 mb-2">Color</h5>
-                                        <hr class="text-muted opacity-25 mt-0 mb-3">
+    if (selectedBrand.length > 0) {
+      query.brand = {
+        $in: selectedBrand.map((brand) => new RegExp(`^${brand}`, "i")),
+      };
+    }
 
-                                        <div class="form-check mb-2">
-                                            <input class="form-check-input" type="checkbox" id="colorBlack"
-                                                name="colors" value="Black">
-                                            <label class="form-check-label text-secondary ps-1"
-                                                for="colorBlack">Black</label>
-                                        </div>
-                                        <div class="form-check mb-2">
-                                            <input class="form-check-input" type="checkbox" id="colorBlue" name="colors"
-                                                value="Blue">
-                                            <label class="form-check-label text-secondary ps-1"
-                                                for="colorBlue">Blue</label>
-                                        </div>
-                                        <div class="form-check mb-2">
-                                            <input class="form-check-input" type="checkbox" id="colorGrey" name="colors"
-                                                value="Grey">
-                                            <label class="form-check-label text-secondary ps-1"
-                                                for="colorGrey">Grey</label>
-                                        </div>
-                                        <div class="form-check mb-2">
-                                            <input class="form-check-input" type="checkbox" id="colorGreen"
-                                                name="colors" value="Green">
-                                            <label class="form-check-label text-secondary ps-1"
-                                                for="colorGreen">Green</label>
-                                        </div>
-                                        <div class="form-check mb-2">
-                                            <input class="form-check-input" type="checkbox" id="colorRed" name="colors"
-                                                value="Red">
-                                            <label class="form-check-label text-secondary ps-1"
-                                                for="colorRed">Red</label>
-                                        </div>
-                                        <div class="form-check mb-2">
-                                            <input class="form-check-input" type="checkbox" id="colorSteel"
-                                                name="colors" value="Steel">
-                                            <label class="form-check-label text-secondary ps-1"
-                                                for="colorSteel">Steel</label>
-                                        </div>
-                                        <div class="form-check mb-3">
-                                            <input class="form-check-input" type="checkbox" id="colorWhite"
-                                                name="colors" value="White">
-                                            <label class="form-check-label text-secondary ps-1"
-                                                for="colorWhite">White</label>
-                                        </div>
-                                    </div>
+    if (category) {
+      query.category = {
+        $in: category,
+      };
+    }
 
-                                    <!-- Brand Section -->
-                                    <div class="mb-4">
-                                        <h5 class="fw-bold fs-6 mb-2">Brand</h5>
-                                        <hr class="text-muted opacity-25 mt-0 mb-3">
+    const savedProduct = await product.find(query).sort(sort);
+    if (savedProduct.length === 0) {
+      return res.render("home", {
+        title: "Homepage",
+        data: savedProduct,
+        message: "There is no product",
+      });
+    }
+    return res.render("home", {
+      title: "Homepage",
+      data: savedProduct,
+      message: "",
+    });
+  }
+}
 
-                                        <div class="form-check mb-2">
-                                            <input class="form-check-input" type="checkbox" id="brandZara" name="brand"
-                                                value="Zara">
-                                            <label class="form-check-label text-secondary ps-1"
-                                                for="brandZara">ZARA</label>
-                                        </div>
-                                        <div class="form-check mb-2">
-                                            <input class="form-check-input" type="checkbox" id="brandPE" name="brand"
-                                                value="Peter England">
-                                            <label class="form-check-label text-secondary ps-1" for="brandPE">PETER
-                                                ENGLAND</label>
-                                        </div>
-                                        <div class="form-check mb-2">
-                                            <input class="form-check-input" type="checkbox" id="brandMufti" name="brand"
-                                                value="Mufti">
-                                            <label class="form-check-label text-secondary ps-1"
-                                                for="brandMufti">MUFTI</label>
-                                        </div>
-                                        <div class="form-check mb-4">
-                                            <input class="form-check-input" type="checkbox" id="brandSamsung"
-                                                name="brand" value="Samsung">
-                                            <label class="form-check-label text-secondary ps-1"
-                                                for="brandSamsung">SAMSUNG</label>
-                                        </div>
-                                    </div>
-
-                                    <!-- Action Button -->
-                                    <button type="submit"
-                                        class="btn btn-outline-dark bg-white text-dark px-3 rounded-1 shadow-sm">
-                                        Apply Filter
-                                    </button>
-
-                                </div>
-                            </div>
-
-                        </form>
-
-
-                    </div>
-                </div>
-
-
-                <div class="col col-lg-10">
-                    <h2>All products</h2>
-
-                    <div class="cardSection">
-                        <h3>
-                            <%= message %>
-                        </h3>
-                        <div class="row">
-                            <% data.forEach(product=> { %>
-
-
-                                <div class="col col-md-4">
-                                    <div class="myCard">
-                                        <div class="card" style="width: 18rem;">
-                                            <img src="<%= product.image[0] %>" class="card-img-top" alt="...">
-                                            <div class="card-body">
-                                                <h5 class="card-title" style="text-align: center;">
-                                                    <%= product.name %>
-                                                </h5>
-                                                <h6 class="card-title" style="text-align: center;">
-                                                    <%= product.category %>
-                                                </h6>
-                                                <h6 class="card-title" style="text-align: center;">
-                                                    <%= product.brand %>
-                                                </h6>
-                                                <p class="card-text">
-                                                    <%= product.description %>
-                                                </p>
-                                            </div>
-                                            <ul class="list-group list-group-flush">
-                                                <li class="list-group-item"><strong>Price: </strong>
-                                                    ₹ <%= product.price %>
-                                                </li>
-                                                <li class="list-group-item"><strong>Sizes: </strong>
-                                                    <%= product.sizes %>
-                                                </li>
-                                                <li class="list-group-item"><strong>Colors: </strong>
-                                                    <%= product.colors %>
-                                                </li>
-                                            </ul>
-                                            <div class="card-body"
-                                                style="text-align: center; display: flex; justify-content:space-between;">
-                                                <a href="/productDetails/<%= product.id  %>" class="card-link"><button
-                                                        type="button" class="btn btn-info">Info</button>
-                                                </a>
-                                                <a href="edit/<%= product.id %>"><button type="button"
-                                                        class="btn btn-warning">Edit</button></a>
-                                                <form action="/softDelete/<%= product.id %>" method="post"><button
-                                                        type="submit" class="btn btn-danger"
-                                                        onclick="return confirm('Do you want to delete this?')">Delete</button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <% }) %>
-
-
-                        </div>
-
-
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-
-
-    </div>
-
-
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-        crossorigin="anonymous"></script>
-</body>
-
-</html>
+module.exports = new homeController();
