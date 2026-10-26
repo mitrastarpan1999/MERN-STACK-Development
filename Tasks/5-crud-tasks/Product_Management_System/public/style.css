@@ -1,0 +1,12 @@
+
+.table tr td img{
+    border: 2px solid blue;
+
+    height: 100px;
+    width: 100px;
+}
+
+h2 {
+    background-color: aqua;
+    text-align: center;
+}
