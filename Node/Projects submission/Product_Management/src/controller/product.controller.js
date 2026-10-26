@@ -198,6 +198,7 @@ class productController {
       const colors = req.query.colors;
       const sizes = req.query.sizes;
       const brand = req.query.brand;
+      const category = req.query.category;
       console.log(colors);
       console.log(req.query.sort);
 
@@ -247,6 +248,12 @@ class productController {
       if (selectedBrand.length > 0) {
         query.brand = {
           $in: selectedBrand.map((brand) => new RegExp(`^${brand}`, "i")),
+        };
+      }
+
+      if (category) {
+        query.category = {
+          $in: category,
         };
       }
 
