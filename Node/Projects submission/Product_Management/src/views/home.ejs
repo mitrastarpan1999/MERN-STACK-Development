@@ -77,6 +77,14 @@
                                             <option value="name_desc">Name Z-A</option>
                                         </select>
                                     </div>
+                                    <div class="mb-4">
+                                        <label for="category" class="form-label">Category</label>
+                                        <select class="form-select" id="category" name="category">
+                                            <option value="">Default</option>
+                                            <option value="Men">Men</option>
+                                            <option value="Women">Women</option>
+                                        </select>
+                                    </div>
                                     <!-- Size Section -->
                                     <div class="mb-4">
                                         <h5 class="fw-bold fs-6 mb-2">Size</h5>
@@ -128,7 +136,8 @@
                                                 for="colorGrey">Grey</label>
                                         </div>
                                         <div class="form-check mb-2">
-                                            <input class="form-check-input" type="checkbox" id="colorGreen" name="colors" value="Green">
+                                            <input class="form-check-input" type="checkbox" id="colorGreen"
+                                                name="colors" value="Green">
                                             <label class="form-check-label text-secondary ps-1"
                                                 for="colorGreen">Green</label>
                                         </div>
@@ -139,12 +148,14 @@
                                                 for="colorRed">Red</label>
                                         </div>
                                         <div class="form-check mb-2">
-                                            <input class="form-check-input" type="checkbox" id="colorSteel" name="colors" value="Steel">
+                                            <input class="form-check-input" type="checkbox" id="colorSteel"
+                                                name="colors" value="Steel">
                                             <label class="form-check-label text-secondary ps-1"
                                                 for="colorSteel">Steel</label>
                                         </div>
                                         <div class="form-check mb-3">
-                                            <input class="form-check-input" type="checkbox" id="colorWhite" name="colors" value="White">
+                                            <input class="form-check-input" type="checkbox" id="colorWhite"
+                                                name="colors" value="White">
                                             <label class="form-check-label text-secondary ps-1"
                                                 for="colorWhite">White</label>
                                         </div>
@@ -156,20 +167,26 @@
                                         <hr class="text-muted opacity-25 mt-0 mb-3">
 
                                         <div class="form-check mb-2">
-                                            <input class="form-check-input" type="checkbox" id="brandZara" name="brand" value="Zara">
-                                            <label class="form-check-label text-secondary ps-1" for="brandZara">ZARA</label>
+                                            <input class="form-check-input" type="checkbox" id="brandZara" name="brand"
+                                                value="Zara">
+                                            <label class="form-check-label text-secondary ps-1"
+                                                for="brandZara">ZARA</label>
                                         </div>
                                         <div class="form-check mb-2">
-                                            <input class="form-check-input" type="checkbox" id="brandPE" name="brand" value="Peter England">
+                                            <input class="form-check-input" type="checkbox" id="brandPE" name="brand"
+                                                value="Peter England">
                                             <label class="form-check-label text-secondary ps-1" for="brandPE">PETER
                                                 ENGLAND</label>
                                         </div>
                                         <div class="form-check mb-2">
-                                            <input class="form-check-input" type="checkbox" id="brandMufti" name="brand" value="Mufti">
-                                            <label class="form-check-label text-secondary ps-1" for="brandMufti">MUFTI</label>
+                                            <input class="form-check-input" type="checkbox" id="brandMufti" name="brand"
+                                                value="Mufti">
+                                            <label class="form-check-label text-secondary ps-1"
+                                                for="brandMufti">MUFTI</label>
                                         </div>
                                         <div class="form-check mb-4">
-                                            <input class="form-check-input" type="checkbox" id="brandSamsung" name="brand" value="Samsung">
+                                            <input class="form-check-input" type="checkbox" id="brandSamsung"
+                                                name="brand" value="Samsung">
                                             <label class="form-check-label text-secondary ps-1"
                                                 for="brandSamsung">SAMSUNG</label>
                                         </div>
@@ -195,7 +212,9 @@
                     <h2>All products</h2>
 
                     <div class="cardSection">
-                        <h3><%= message %></h3>
+                        <h3>
+                            <%= message %>
+                        </h3>
                         <div class="row">
                             <% data.forEach(product=> { %>
 
@@ -209,6 +228,9 @@
                                                     <%= product.name %>
                                                 </h5>
                                                 <h6 class="card-title" style="text-align: center;">
+                                                    <%= product.category %>
+                                                </h6>
+                                                <h6 class="card-title" style="text-align: center;">
                                                     <%= product.brand %>
                                                 </h6>
                                                 <p class="card-text">
@@ -217,7 +239,7 @@
                                             </div>
                                             <ul class="list-group list-group-flush">
                                                 <li class="list-group-item"><strong>Price: </strong>
-                                                   ₹ <%= product.price %> 
+                                                    ₹ <%= product.price %>
                                                 </li>
                                                 <li class="list-group-item"><strong>Sizes: </strong>
                                                     <%= product.sizes %>
