@@ -76,6 +76,14 @@
                                             <option value="name_desc">Name Z-A</option>
                                         </select>
                                     </div>
+                                    <div class="mb-4">
+                                        <label for="category" class="form-label">Category</label>
+                                        <select class="form-select" id="category" name="category">
+                                            <option value="">Default</option>
+                                            <option value="Men">Men</option>
+                                            <option value="Women">Women</option>
+                                        </select>
+                                    </div>
                                     <!-- Size Section -->
                                     <div class="mb-4">
                                         <h5 class="fw-bold fs-6 mb-2">Size</h5>
@@ -213,6 +221,9 @@
                                                 <h5 class="card-title" style="text-align: center;">
                                                     <%= product.name %>
                                                 </h5>
+                                                <h6 class="card-title" style="text-align: center;">
+                                                    <%= product.category %>
+                                                </h6>
                                                 <p class="card-text">
                                                     <%= product.description %>
                                                 </p>
